@@ -49,6 +49,33 @@ impl TreeNode {
     }
 }
 
+pub fn dfs(root: &TreeNode) {
+    let mut stack = vec![root];
+    while let Some(node) = stack.pop() {
+        println!("{}", node.value);
+        if let Some(right) = &node.right {
+            stack.push(right);
+        }
+        if let Some(left) = &node.left {
+            stack.push(left);
+        }
+    }
+}
+
+pub fn bfs(root: &TreeNode) {
+    let mut queue = std::collections::VecDeque::new();
+    queue.push_back(root);
+    while let Some(node) = queue.pop_front() {
+        println!("{}", node.value);
+        if let Some(left) = &node.left {
+            queue.push_back(left);
+        }
+        if let Some(right) = &node.right {
+            queue.push_back(right);
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -94,5 +121,19 @@ mod tests {
 
         assert!(root.left.as_ref().unwrap().value == 10);
         assert!(root.left.as_ref().unwrap().left.as_ref().unwrap().value == 10);
+    }
+
+    // TODO: Fix this test to properly test the output
+    #[test]
+    fn test_dfs() {
+        let mut root = TreeNode::new(10);
+        root.insert(5);
+        root.insert(15);
+        root.insert(3);
+        root.insert(7);
+        root.insert(12);
+        root.insert(18);
+
+        dfs(&root);
     }
 }
