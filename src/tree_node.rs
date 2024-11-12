@@ -17,7 +17,7 @@ impl TreeNode {
 
     // Insert a value into the binary tree
     pub fn insert(&mut self, new_value: i32) {
-        if new_value < self.value {
+        if new_value <= self.value {
             match self.left {
                 Some(ref mut left_child) => left_child.insert(new_value),
                 None => self.left = Some(Box::new(TreeNode::new(new_value))),
@@ -84,5 +84,15 @@ mod tests {
         assert!(root.contains(7));
         assert!(root.contains(12));
         assert!(!root.contains(20));
+    }
+
+    #[test]
+    fn test_insert_same_value() {
+        let mut root = TreeNode::new(10);
+        root.insert(10);
+        root.insert(10);
+
+        assert!(root.left.as_ref().unwrap().value == 10);
+        assert!(root.left.as_ref().unwrap().left.as_ref().unwrap().value == 10);
     }
 }
